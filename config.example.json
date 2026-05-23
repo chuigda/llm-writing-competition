@@ -17,20 +17,17 @@
     {
       "id": "gpt-4o",
       "name": "GPT-4o",
-      "vendor": "openai",
-      "modelName": "gpt-4o"
+      "vendor": "openai"
     },
     {
-      "id": "claude-sonnet",
+      "id": "claude-sonnet-4-20250514",
       "name": "Claude Sonnet",
-      "vendor": "anthropic",
-      "modelName": "claude-sonnet-4-20250514"
+      "vendor": "anthropic"
     },
     {
-      "id": "deepseek-r1",
+      "id": "deepseek-reasoner",
       "name": "DeepSeek R1",
-      "vendor": "deepseek",
-      "modelName": "deepseek-reasoner"
+      "vendor": "deepseek"
     }
   ]
 }

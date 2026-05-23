@@ -34,6 +34,11 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+function sanitizeName(name) {
+  // 将模型名称转为安全的文件名：去除非法字符，空格替换为下划线
+  return name.replace(/[<>:"\/|?*]/g, '').replace(/\s+/g, '_').trim();
+}
+
 // —— API 调用 ——
 
 async function callLLM(vendor, modelName, systemPrompt, userPrompt) {
@@ -92,11 +97,11 @@ async function phaseWriting(config) {
     console.log(`\n🤖 ${model.name} 正在写作...`);
 
     try {
-      const essay = await callLLM(vendor, model.modelName, systemPrompt, userPrompt);
+      const essay = await callLLM(vendor, model.id, systemPrompt, userPrompt);
       essays[model.id] = essay;
 
-      // 保存到文件
-      const filePath = path.join(writingDir, `${model.id}.txt`);
+      // 保存到文件（用 name 命名，便于阅读）
+      const filePath = path.join(writingDir, `${sanitizeName(model.name)}.txt`);
       fs.writeFileSync(filePath, essay, 'utf-8');
       console.log(`   ✅ 完成，已保存至 ${filePath}`);
     } catch (err) {
@@ -134,16 +139,18 @@ async function phaseJudging(config, essays) {
 
     for (const [essayId, essayContent] of Object.entries(essays)) {
       // 盲评：不透露作者信息
+      const essayModel = config.models.find(m => m.id === essayId);
+      const essayName = essayModel ? sanitizeName(essayModel.name) : essayId;
       const userPrompt = userTemplate.replace('{{ESSAY_CONTENT}}', essayContent);
 
       try {
-        const evaluation = await callLLM(vendor, judge.modelName, systemPrompt, userPrompt);
+        const evaluation = await callLLM(vendor, judge.id, systemPrompt, userPrompt);
         scores[judge.id][essayId] = evaluation;
 
-        // 保存评阅结果
-        const filePath = path.join(judgingDir, `${judge.id}_reviews_${essayId}.txt`);
+        // 保存评阅结果（用 name 命名，便于阅读）
+        const filePath = path.join(judgingDir, `${sanitizeName(judge.name)}_reviews_${essayName}.txt`);
         fs.writeFileSync(filePath, evaluation, 'utf-8');
-        console.log(`   ✅ ${judge.name} → 作品 ${essayId} 评阅完成`);
+        console.log(`   ✅ ${judge.name} → 作品 ${essayName} 评阅完成`);
       } catch (err) {
         console.error(`   ❌ ${judge.name} → 作品 ${essayId} 评阅失败: ${err.message}`);
       }
