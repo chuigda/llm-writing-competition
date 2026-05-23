@@ -1,0 +1,11 @@
+<task>
+<topic>请围绕“庄子哲学”这一主题写一篇文章，文体不限（记叙，议论，散文，诗歌，纪实，说明等均可）。</topic>
+<input>
+<article-1>
+{{ESSAY_1}}
+</article-1>
+<article-2>
+{{ESSAY_2}}
+</article-2>
+</input>
+</task>
