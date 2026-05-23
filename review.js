@@ -49,8 +49,8 @@ async function callLLM(vendor, modelName, systemPrompt, userPrompt) {
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }
     ],
-    temperature: 0.7,
-    max_tokens: 4096
+    temperature: 0.05,
+    max_tokens: 8192
   };
 
   const response = await fetch(url, {
@@ -59,7 +59,8 @@ async function callLLM(vendor, modelName, systemPrompt, userPrompt) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(5 * 60 * 1000) // 5 分钟超时
   });
 
   if (!response.ok) {
