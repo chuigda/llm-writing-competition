@@ -1,0 +1,36 @@
+{
+  "vendors": {
+    "openai": {
+      "endpoint": "https://api.openai.com/v1",
+      "apiKey": "sk-xxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "anthropic": {
+      "endpoint": "https://api.anthropic.com/v1",
+      "apiKey": "sk-ant-xxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    "deepseek": {
+      "endpoint": "https://api.deepseek.com/v1",
+      "apiKey": "sk-xxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+  },
+  "models": [
+    {
+      "id": "gpt-4o",
+      "name": "GPT-4o",
+      "vendor": "openai",
+      "modelName": "gpt-4o"
+    },
+    {
+      "id": "claude-sonnet",
+      "name": "Claude Sonnet",
+      "vendor": "anthropic",
+      "modelName": "claude-sonnet-4-20250514"
+    },
+    {
+      "id": "deepseek-r1",
+      "name": "DeepSeek R1",
+      "vendor": "deepseek",
+      "modelName": "deepseek-reasoner"
+    }
+  ]
+}
